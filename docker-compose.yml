@@ -1,0 +1,35 @@
+services:
+  ci4-php-apache:
+    container_name: ci4-php-apache
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    depends_on:
+      - ci4-db
+    volumes:
+      - ./php/webapp/:/var/www/html/
+    ports:
+      - 8000:80
+
+  ci4-db:
+    container_name: ci4-db
+    image: mysql:8.4
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: MY_DATABASE
+      MYSQL_USER: MYSQL_USER
+      MYSQL_PASSWORD: MYSQL_PASSWORD
+    ports:
+      - "3306:3306"
+
+  ci4-phpmyadmin:
+    container_name: ci4-phpmyadmin
+    image: phpmyadmin:5.2-apache
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      PMA_HOST: ci4-db
+    depends_on:
+      - ci4-db
