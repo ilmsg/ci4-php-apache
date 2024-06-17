@@ -1,5 +1,14 @@
 # ci4-php-apache
 
+เครื่องมือที่ใช้
+
+    - windows 10 with wsl2
+    - vscode
+    - docker desktop
+    - docker compose
+    - composer
+    - codeigniter
+
 สำหรับ php:8.3-apache มีส่วน ext, อื่นๆ เพิ่มเข้ามาอีก, มี git, composer ที่ใส่ comment ปิดเอาไว้อยู่ (เผื่อวันไหนอยากใช้อ่ะนะ)
 
 ไพล `docker-compose.yml` 
@@ -8,31 +17,40 @@
     - mysql:8.4
     - phpmyadmin:5.2-apache
 
-รันตัว docker compose
+ขั้นตอนที่ 1 - clone repo ลงมา
+
+    $ git clone https://github.com/ilmsg/ci4-php-apache.git
+
+ขั้นตอนที่ 2 - รันตัว composer สร้าง CI4 Project ขึ้นมาเลย เอาไปลงที่ php/webapp 
+
+    $ cd ci4-php-apache
+    $ composer create-project codeigniter4/appstarter php/webapp
+
+ขั้นตอนที่ 3 - รันตัว docker compose
 
     $ docker compose up -d
 
-init ตัว ci project ด้วย composer (จากตัว local ของเราเอง)
-
-    $ cd php/webapp
-    $ composer create-project codeigniter4/appstarter .
-
-ในกรณีที่เราจะใช้ composer ภายใน (อย่าลืมเอา comment ที่เป็นตัว install composer ในตัว Dockerfile ออกก่อน)
-
-    $ docker exec -it ci4-php-apache /bin/bash
-
 หลังจากนั้น ทำตาม step การเริ่มต้นตั้งค่าใช้งาน ci4 แบบปกติได้เลยย
 
-๊ก๊อปปี้ตัว .env จากตัวอย่าง
+ขั้นตอนที่ 4 - ก๊อปปี้ตัว .env จากตัวอย่าง
 
     $ cp env .env
 
-เปิดแก้ไขไพล์ .env 
+ขั้นตอนที่ 5 - เปิดแก้ไขไพล์ .env 
 
     # CI_ENVIRONMENT = production
     CI_ENVIRONMENT = development
 
     app.baseURL = 'http://localhost:8000'
+
+---
+มี composer ด้วยนะ ถ้าอยากจะใช้ (อย่าลืมเอา comment ที่เป็นตัว install composer ในตัว Dockerfile ออกก่อน)
+
+    $ docker exec -it ci4-php-apache /bin/bash
+
+ถ้ายังไม่มี composer ก็ลงได้จากตรงนี้
+
+    $ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ---
 
