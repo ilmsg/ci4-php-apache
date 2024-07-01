@@ -19,16 +19,17 @@
 
 ขั้นตอนที่ 1 - clone repo ลงมา
 
-    $ git clone https://github.com/ilmsg/ci4-php-apache.git
+    $ git clone https://github.com/ilmsg/ci4-php-apache.git <project_name>
 
-ขั้นตอนที่ 2 - รันตัว composer สร้าง CI4 Project ขึ้นมาเลย เอาไปลงที่ php/webapp 
+ขั้นตอนที่ 2 - รันตัว docker compose
 
-    $ cd ci4-php-apache
-    $ composer create-project codeigniter4/appstarter php/webapp
-
-ขั้นตอนที่ 3 - รันตัว docker compose
-
+    $ cd <project_name>
     $ docker compose up -d
+
+ขั้นตอนที่ 3 - รันตัว composer install 
+
+    $ cd php/webapp
+    $ composer install
 
 หลังจากนั้น ทำตาม step การเริ่มต้นตั้งค่าใช้งาน ci4 แบบปกติได้เลยย
 
@@ -42,6 +43,11 @@
     CI_ENVIRONMENT = development
 
     app.baseURL = 'http://localhost:8000'
+
+---
+สร้าง project codeignter จากคำสั่งนี้
+
+    $ composer create-project codeigniter4/appstarter php/webapp
 
 ---
 มี composer ด้วยนะ ถ้าอยากจะใช้ (อย่าลืมเอา comment ที่เป็นตัว install composer ในตัว Dockerfile ออกก่อน)
